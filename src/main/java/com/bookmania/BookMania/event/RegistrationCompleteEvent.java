@@ -1,7 +1,9 @@
 package com.bookmania.BookMania.event;
 
 import com.bookmania.BookMania.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
