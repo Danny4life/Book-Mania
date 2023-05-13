@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/v1/user")
+//@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -45,7 +45,7 @@ public class UserController {
 
     private String applicationUrl(HttpServletRequest request) {
 
-        return "http//" +
+        return "http://" +
                 request.getServerName() +
                 ":" +
                 request.getServerPort() +

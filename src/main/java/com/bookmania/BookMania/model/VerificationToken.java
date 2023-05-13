@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-public class VerificationToken extends BaseClass {
+public class VerificationToken extends BaseClass{
 
     private static final int  EXPIRATION_TIME = 10;
     private String token;
