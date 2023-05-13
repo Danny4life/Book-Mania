@@ -6,10 +6,8 @@ import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +20,7 @@ public class UserController {
     private final ApplicationEventPublisher publisher;
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody UserDto userDto, final HttpServletRequest request){
+    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto, final HttpServletRequest request){
 
         User user = userService.registerUser(userDto);
         publisher.publishEvent(new RegistrationCompleteEvent(
@@ -30,8 +28,20 @@ public class UserController {
                 applicationUrl(request)
         ));
 
-        return "Account Created Successfully";
+        return ResponseEntity.ok("Account Created Successfully");
     }
+
+    @GetMapping("/verify-registration")
+    public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token){
+        String result = userService.validateVerificationToken(token);
+
+        if(result.equalsIgnoreCase("valid")){
+            return ResponseEntity.ok("User Verify Successfully");
+        }
+            return ResponseEntity.ok("Bad User");
+    }
+
+
 
     private String applicationUrl(HttpServletRequest request) {
 

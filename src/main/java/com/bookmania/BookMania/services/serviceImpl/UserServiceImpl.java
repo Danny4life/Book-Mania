@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public String validateVerificationToken(String token) {
+        return null;
+    }
+
 
     @Override
     public void saveVerificationTokenForUser(String token, User user) {
