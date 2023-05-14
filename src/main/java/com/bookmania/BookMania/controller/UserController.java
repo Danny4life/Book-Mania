@@ -47,7 +47,7 @@ public class UserController {
         String result = userService.validateVerificationToken(token);
 
         if(result.equalsIgnoreCase("valid")){
-            return ResponseEntity.ok("User Verify Successfully");
+            return ResponseEntity.ok("Your Account Has Been Verify Successfully");
         }
             return ResponseEntity.ok("Bad User");
     }
