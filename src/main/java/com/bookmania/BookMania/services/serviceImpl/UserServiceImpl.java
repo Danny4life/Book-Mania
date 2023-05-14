@@ -1,5 +1,6 @@
 package com.bookmania.BookMania.services.serviceImpl;
 
+import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.model.User;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.InputMismatchException;
 
 @Service
 @AllArgsConstructor
@@ -22,13 +24,20 @@ public class UserServiceImpl implements UserService {
 
     private final VerificationRepository verificationRepository;
 
+    private final Util util;
+
     @Override
     public User registerUser(UserDto userDto) {
 
         boolean userExists = userRepository.findByEmail(userDto.getEmail()).isPresent();
+        boolean isPasswordMatch = util.validatePassword(userDto.getPassword(), userDto.getConfirmPassword());
 
         if(userExists){
             throw new EmailAlreadyExistException("Email Already Exists");
+        }
+
+        if(!isPasswordMatch){
+            throw new InputMismatchException("Passwords do not match");
         }
 
         User user = User.builder()
