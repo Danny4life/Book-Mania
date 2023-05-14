@@ -8,6 +8,7 @@ import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
 import com.bookmania.BookMania.services.UserService;
+import com.bookmania.BookMania.validations.EmailValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,14 @@ public class UserServiceImpl implements UserService {
 
     private final Util util;
 
+    private final EmailValidator emailValidator;
+
     @Override
     public User registerUser(UserDto userDto) {
 
         boolean userExists = userRepository.findByEmail(userDto.getEmail()).isPresent();
         boolean isPasswordMatch = util.validatePassword(userDto.getPassword(), userDto.getConfirmPassword());
+        boolean isValidEmail = emailValidator.test(userDto.getEmail());
 
         if(userExists){
             throw new EmailAlreadyExistException("Email Already Exists");
@@ -39,6 +43,10 @@ public class UserServiceImpl implements UserService {
 
         if(!isPasswordMatch){
             throw new InputMismatchException("Passwords do not match");
+        }
+
+        if(!isValidEmail){
+            throw new EmailNotValidException("Email not valid");
         }
 
         User user = User.builder()
