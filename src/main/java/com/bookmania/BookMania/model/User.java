@@ -1,5 +1,6 @@
 package com.bookmania.BookMania.model;
 
+import com.bookmania.BookMania.validations.ValidEmail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +32,8 @@ public class User extends BaseClass {
     @Size(min = 2, message = "Lastname should have at least two characters")
     @Column(nullable = false)
     private String lastname;
-    @Email(message = "Email must be entered")
+    @ValidEmail
+    @Email(message = "Invalid email format")
     @NotBlank(message = "Email should not be empty")
     @Column(unique = true, nullable = false)
     private String email;
