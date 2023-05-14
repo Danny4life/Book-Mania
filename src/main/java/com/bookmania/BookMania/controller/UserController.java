@@ -3,6 +3,7 @@ package com.bookmania.BookMania.controller;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.event.RegistrationCompleteEvent;
 import com.bookmania.BookMania.model.User;
+import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -41,6 +42,23 @@ public class UserController {
             return ResponseEntity.ok("Bad User");
     }
 
+    @GetMapping("/resend-verification-token")
+
+    public ResponseEntity<String> resendVerificationToken(@RequestParam("token") String oldToken,
+                                                          HttpServletRequest request){
+
+        VerificationToken verificationToken = userService.generateNewVerificationToken(oldToken);
+        User user = verificationToken.getUser();
+        
+        resendVerificationTokenMail(user, applicationUrl(request), verificationToken);
+        
+        return ResponseEntity.ok("Verification link sent");
+
+
+    }
+
+    private void resendVerificationTokenMail(User user, String applicationUrl, VerificationToken verificationToken) {
+    }
 
 
     private String applicationUrl(HttpServletRequest request) {
