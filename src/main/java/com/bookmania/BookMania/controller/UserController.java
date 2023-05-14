@@ -44,7 +44,7 @@ public class UserController {
             return ResponseEntity.ok("Bad User");
     }
 
-    @GetMapping("/resend-verification-token")
+    @GetMapping("/resend-verification-link")
 
     public ResponseEntity<String> resendVerificationToken(@RequestParam("token") String oldToken,
                                                           HttpServletRequest request){

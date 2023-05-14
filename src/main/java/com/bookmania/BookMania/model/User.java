@@ -33,6 +33,7 @@ public class User extends BaseClass {
     private String lastname;
     @Email(message = "Email must be entered")
     @NotBlank(message = "Email should not be empty")
+    @Column(unique = true, nullable = false)
     private String email;
     @NotBlank(message = "Password should not be empty")
     @Size(min = 6)
