@@ -4,6 +4,7 @@ import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotValidException;
+import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.UserRepository;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if(!isPasswordMatch){
-            throw new InputMismatchException("Passwords do not match");
+            throw new PasswordNotMatchException("Passwords do not match");
         }
 
         User user = User.builder()
