@@ -26,7 +26,9 @@ public class UserController {
     private final UserService userService;
     private final ApplicationEventPublisher publisher;
 
-    //private final Validator validator;
+    private final Validator validator;
+
+
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto, final HttpServletRequest request){
