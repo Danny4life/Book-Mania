@@ -6,6 +6,7 @@ import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -58,6 +60,16 @@ public class UserController {
     }
 
     private void resendVerificationTokenMail(User user, String applicationUrl, VerificationToken verificationToken) {
+
+        String url =
+                applicationUrl
+                        + "/api/v1/user"
+                        + "/verify-registration?token="
+                        + verificationToken.getToken();
+
+        // Send verification email
+        log.info("Click the link to verify your account: {}",
+                url);
     }
 
 

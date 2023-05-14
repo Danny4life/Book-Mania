@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.InputMismatchException;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -75,6 +76,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return "valid";
+    }
+
+    @Override
+    public VerificationToken generateNewVerificationToken(String oldToken) {
+        VerificationToken verificationToken = verificationRepository.findByToken(oldToken);
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationRepository.save(verificationToken);
+
+        return verificationToken;
     }
 
 
