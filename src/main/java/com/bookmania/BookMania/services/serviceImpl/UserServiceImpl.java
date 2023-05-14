@@ -3,6 +3,7 @@ package com.bookmania.BookMania.services.serviceImpl;
 import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
+import com.bookmania.BookMania.exceptions.EmailNotValidException;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.UserRepository;
