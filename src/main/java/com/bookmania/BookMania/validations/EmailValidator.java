@@ -1,13 +1,12 @@
 package com.bookmania.BookMania.validations;
 
-import org.springframework.stereotype.Service;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-import java.util.function.Predicate;
+public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
-@Service
-public class EmailValidator implements Predicate<String> {
     @Override
-    public boolean test(String s) {
-        return true;
+    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+        return false;
     }
 }

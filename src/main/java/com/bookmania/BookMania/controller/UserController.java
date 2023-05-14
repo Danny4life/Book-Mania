@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -23,7 +24,7 @@ public class UserController {
     private final ApplicationEventPublisher publisher;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto, final HttpServletRequest request){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto, final HttpServletRequest request){
 
         User user = userService.registerUser(userDto);
         publisher.publishEvent(new RegistrationCompleteEvent(

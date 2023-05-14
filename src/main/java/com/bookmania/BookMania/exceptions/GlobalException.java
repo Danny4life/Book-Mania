@@ -22,4 +22,16 @@ public class GlobalException {
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
 
     }
+
+    @ExceptionHandler(EmailNotValidException.class)
+    public ResponseEntity<?> handleEmailNotValidException(EmailNotValidException e,
+                                                              WebRequest request){
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
+                request.getDescription(false));
+
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.FORBIDDEN);
+
+    }
 }
