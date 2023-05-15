@@ -1,5 +1,6 @@
 package com.bookmania.BookMania.controller;
 
+import com.bookmania.BookMania.dto.PasswordDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.event.RegistrationCompleteEvent;
 import com.bookmania.BookMania.model.User;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.Validator;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -63,8 +65,6 @@ public class UserController {
         resendVerificationTokenMail(user, applicationUrl(request), verificationToken);
         
         return ResponseEntity.ok("Verification link sent");
-
-
     }
 
     private void resendVerificationTokenMail(User user, String applicationUrl, VerificationToken verificationToken) {
@@ -79,6 +79,38 @@ public class UserController {
         log.info("Click the link to verify your account: {}",
                 url);
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody PasswordDto passwordDto,HttpServletRequest request){
+        User user = userService.findUserByEmail(passwordDto.getEmail());
+
+        String url = "";
+
+        if(user != null){
+            String token = UUID.randomUUID().toString();
+            userService.createPasswordResetTokenForUser(user, token);
+            url = passwordResetTokenMail(user, applicationUrl(request), token);
+        }
+
+        return ResponseEntity.ok(url);
+
+    }
+
+    private String passwordResetTokenMail(User user, String applicationUrl, String token) {
+
+        String url =
+                applicationUrl
+                + "/save-password?token="
+                + token;
+
+        log.info("Click the link to reset your password : {}",
+                url);
+
+        return url;
+
+    }
+
+
 
 
     private String applicationUrl(HttpServletRequest request) {
