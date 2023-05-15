@@ -35,6 +35,18 @@ public class GlobalException {
 
     }
 
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<?> handleEmailEmailNotFoundException(EmailNotFoundException e,
+                                                          WebRequest request){
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), e.getMessage(),
+                request.getDescription(false));
+
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+
+    }
+
     @ExceptionHandler(PasswordNotMatchException.class)
     public ResponseEntity<?> handlePasswordNotMatchException(PasswordNotMatchException e,
                                                           WebRequest request){
