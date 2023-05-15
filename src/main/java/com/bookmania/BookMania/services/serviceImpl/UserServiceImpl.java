@@ -6,8 +6,10 @@ import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
 import com.bookmania.BookMania.exceptions.EmailNotValidException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
+import com.bookmania.BookMania.model.PasswordResetToken;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
+import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
 import com.bookmania.BookMania.services.UserService;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final VerificationRepository verificationRepository;
+
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     private final Util util;
 
@@ -110,6 +114,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createPasswordResetTokenForUser(User user, String token) {
+        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
+        passwordResetTokenRepository.save(passwordResetToken);
 
     }
 
