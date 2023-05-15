@@ -3,6 +3,7 @@ package com.bookmania.BookMania.services.serviceImpl;
 import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
+import com.bookmania.BookMania.exceptions.EmailNotFoundException;
 import com.bookmania.BookMania.exceptions.EmailNotValidException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
 import com.bookmania.BookMania.model.User;
@@ -93,13 +94,22 @@ public class UserServiceImpl implements UserService {
         return verificationToken;
     }
 
-
     @Override
     public void saveVerificationTokenForUser(String token, User user) {
 
         VerificationToken verificationToken = new VerificationToken(token, user);
 
         verificationRepository.save(verificationToken);
+
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(()-> new EmailNotFoundException("Email not found"));
+    }
+
+    @Override
+    public void createPasswordResetTokenForUser(User user, String token) {
 
     }
 
