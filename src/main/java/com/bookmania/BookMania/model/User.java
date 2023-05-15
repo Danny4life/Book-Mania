@@ -37,7 +37,8 @@ public class User extends BaseClass {
     @NotBlank(message = "Email should not be empty")
     @Column(unique = true, nullable = false)
     private String email;
-    @NotBlank(message = "Password should not be empty")
+    @NotNull(message = "Password should not be empty")
+    @NotBlank(message = "Password should not be blank")
     @Size(min = 6)
     private String password;
     private String role;
