@@ -130,6 +130,19 @@ public class UserController {
         }else {
             return ResponseEntity.ok("Invalid token");
         }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody PasswordDto passwordDto){
+        User user = userService.findUserByEmail(passwordDto.getEmail());
+
+        if(!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())){
+            return ResponseEntity.ok("Invalid Old Password");
+        }
+
+        userService.changePassword(user, passwordDto.getNewPassword());
+
+        return ResponseEntity.ok("Password Change Successfully");
 
     }
 
