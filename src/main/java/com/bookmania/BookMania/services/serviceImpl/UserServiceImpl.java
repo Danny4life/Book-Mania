@@ -158,10 +158,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponse loginUser(LoginDto loginDto) {
 
-        String msg = "";
         Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
 
-        if(user != null){
+        if(user.isPresent()){
             String password = loginDto.getPassword();
             String encodedPassword = user.get().getPassword();
             boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
@@ -176,7 +175,7 @@ public class UserServiceImpl implements UserService {
                     return new LoginResponse("Login Failed", false);
                 }
             }else {
-                return new LoginResponse("Email or Password not match", false);
+                return new LoginResponse("Email or Password does not match", false);
             }
         }else {
             return new LoginResponse("Email does not exists", false);

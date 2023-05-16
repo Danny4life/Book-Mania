@@ -112,6 +112,7 @@ public class UserController {
 
         String url =
                 applicationUrl
+                + "/api/v1/user"
                 + "/save-password?token="
                 + token;
 
