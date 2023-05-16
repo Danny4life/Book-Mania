@@ -4,7 +4,6 @@ import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
-import com.bookmania.BookMania.exceptions.EmailNotValidException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
 import com.bookmania.BookMania.model.PasswordResetToken;
 import com.bookmania.BookMania.model.User;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.Calendar;
-import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -116,6 +115,21 @@ public class UserServiceImpl implements UserService {
     public void createPasswordResetTokenForUser(User user, String token) {
         PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
         passwordResetTokenRepository.save(passwordResetToken);
+
+    }
+
+    @Override
+    public String validatePasswordResetToken(String token) {
+        return null;
+    }
+
+    @Override
+    public Optional<User> getUserByPasswordResetToken(String token) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
 
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.Validator;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -107,6 +108,28 @@ public class UserController {
                 url);
 
         return url;
+
+    }
+
+    @PostMapping("/save-password")
+    public ResponseEntity<String> savePassword(@RequestParam("token") String token,
+                                               @RequestBody PasswordDto passwordDto){
+
+        String result = userService.validatePasswordResetToken(token);
+
+        if(!result.equalsIgnoreCase("valid")){
+            return ResponseEntity.ok("Invalid Token");
+        }
+
+        Optional<User> user = userService.getUserByPasswordResetToken(token);
+
+        if(user.isPresent()){
+            userService.changePassword(user.get(), passwordDto.getNewPassword());
+
+            return ResponseEntity.ok("Password Reset Successfully");
+        }else {
+            return ResponseEntity.ok("Invalid token");
+        }
 
     }
 

@@ -4,6 +4,8 @@ import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 
+import java.util.Optional;
+
 public interface UserService {
     void saveVerificationTokenForUser(String token, User user);
 
@@ -16,4 +18,10 @@ public interface UserService {
     User findUserByEmail(String email);
 
     void createPasswordResetTokenForUser(User user, String token);
+
+    String validatePasswordResetToken(String token);
+
+    Optional<User> getUserByPasswordResetToken(String token);
+
+    void changePassword(User user, String newPassword);
 }
