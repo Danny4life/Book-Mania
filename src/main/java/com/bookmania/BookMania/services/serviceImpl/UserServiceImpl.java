@@ -1,6 +1,7 @@
 package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.Util.Util;
+import com.bookmania.BookMania.dto.LoginDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
@@ -11,6 +12,7 @@ import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
+import com.bookmania.BookMania.response.LoginResponse;
 import com.bookmania.BookMania.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -151,5 +153,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    @Override
+    public LoginResponse loginUser(LoginDto loginDto) {
+
+        String msg = "";
+        Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
+
+        if(user != null){
+            String password = loginDto.getPassword();
+            String encodedPassword = user.get().getPassword();
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+
+            if(isPwdRight){
+                Optional<User> user1 = Optional.ofNullable(userRepository.findOneByEmailAndPassword(loginDto.getEmail(), encodedPassword));
+
+                if(user1.isPresent()){
+                    return new LoginResponse("Login Successful", true);
+
+                }else {
+                    return new LoginResponse("Login Failed", false);
+                }
+            }else {
+                return new LoginResponse("Email or Password not match", false);
+            }
+        }else {
+            return new LoginResponse("Email does not exists", false);
+        }
+
     }
 }
