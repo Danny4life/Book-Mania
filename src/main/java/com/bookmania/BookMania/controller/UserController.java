@@ -45,6 +45,8 @@ public class UserController {
         return ResponseEntity.ok("Account Created Successfully");
     }
 
+
+
     @GetMapping("/verify-registration")
     public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token){
         String result = userService.validateVerificationToken(token);
