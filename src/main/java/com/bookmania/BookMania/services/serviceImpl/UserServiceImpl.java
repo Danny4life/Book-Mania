@@ -139,11 +139,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByPasswordResetToken(String token) {
-        return Optional.empty();
+        return Optional.ofNullable(passwordResetTokenRepository.findByToken(token).getUser());
     }
 
     @Override
     public void changePassword(User user, String newPassword) {
-
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
