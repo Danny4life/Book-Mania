@@ -1,8 +1,10 @@
 package com.bookmania.BookMania.services;
 
+import com.bookmania.BookMania.dto.LoginDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
+import com.bookmania.BookMania.response.LoginResponse;
 
 import java.util.Optional;
 
@@ -26,4 +28,6 @@ public interface UserService {
     void changePassword(User user, String newPassword);
 
     boolean checkIfValidOldPassword(User user, String oldPassword);
+
+    LoginResponse loginUser(LoginDto loginDto);
 }

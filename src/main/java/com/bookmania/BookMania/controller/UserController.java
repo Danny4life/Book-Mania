@@ -1,10 +1,12 @@
 package com.bookmania.BookMania.controller;
 
+import com.bookmania.BookMania.dto.LoginDto;
 import com.bookmania.BookMania.dto.PasswordDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.event.RegistrationCompleteEvent;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
+import com.bookmania.BookMania.response.LoginResponse;
 import com.bookmania.BookMania.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +47,13 @@ public class UserController {
         return ResponseEntity.ok("Account Created Successfully");
     }
 
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto){
+        LoginResponse loginResponse = userService.loginUser(loginDto);
+
+        return ResponseEntity.ok(loginResponse);
+    }
 
 
     @GetMapping("/verify-registration")
