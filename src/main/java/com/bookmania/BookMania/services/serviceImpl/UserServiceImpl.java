@@ -120,6 +120,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String validatePasswordResetToken(String token) {
+
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         return null;
     }
 
