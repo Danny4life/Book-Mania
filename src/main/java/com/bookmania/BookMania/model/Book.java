@@ -26,7 +26,6 @@ public class Book extends BaseClass {
     @Column(nullable = false)
     private int pages;
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Book must read status must not be blank")
     @Column(nullable = false)
     private BookStatus bookStatus;
     @ManyToOne(fetch = FetchType.LAZY)
