@@ -9,6 +9,7 @@ import com.bookmania.BookMania.repository.BookRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.services.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -40,6 +41,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto getBookById(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book Not Found"));
-        return null;
+
+        BookDto bookDto = new BookDto();
+        BeanUtils.copyProperties(book, bookDto);
+
+        return bookDto;
     }
 }
