@@ -2,6 +2,7 @@ package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.dto.BookDto;
 import com.bookmania.BookMania.exceptions.UserNotFoundException;
+import com.bookmania.BookMania.model.Book;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.repository.BookRepository;
 import com.bookmania.BookMania.repository.UserRepository;
@@ -20,6 +21,17 @@ public class BookServiceImpl implements BookService {
     public BookDto createBook(Long id, BookDto bookDto) {
 
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User does not exists"));
-        return null;
+
+        Book book = Book.builder()
+                .title(bookDto.getTitle())
+                .author(bookDto.getAuthor())
+                .pages(bookDto.getPages())
+                .bookStatus(bookDto.getBookStatus())
+                .user(user)
+                .build();
+
+        bookRepository.save(book);
+
+        return bookDto;
     }
 }

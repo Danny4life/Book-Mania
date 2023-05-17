@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Date;
 
 @ControllerAdvice
-public class GlobalException {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyExistException.class)
     public ResponseEntity<?> handleEmailAlreadyExistException(EmailAlreadyExistException e,
