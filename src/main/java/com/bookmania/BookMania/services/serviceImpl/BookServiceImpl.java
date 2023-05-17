@@ -1,6 +1,7 @@
 package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.dto.BookDto;
+import com.bookmania.BookMania.exceptions.BookNotFoundException;
 import com.bookmania.BookMania.exceptions.UserNotFoundException;
 import com.bookmania.BookMania.model.Book;
 import com.bookmania.BookMania.model.User;
@@ -34,5 +35,11 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
 
         return bookDto;
+    }
+
+    @Override
+    public BookDto getBookById(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book Not Found"));
+        return null;
     }
 }
