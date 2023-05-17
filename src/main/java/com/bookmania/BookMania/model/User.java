@@ -6,13 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Entity
@@ -43,4 +42,6 @@ public class User extends BaseClass {
     private String password;
     private String role;
     private boolean enabled = false;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Book> book;
 }
