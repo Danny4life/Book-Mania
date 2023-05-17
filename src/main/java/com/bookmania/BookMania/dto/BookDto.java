@@ -14,4 +14,8 @@ public class BookDto {
     private String author;
     private int pages;
     private BookStatus bookStatus;
+
+    public BookDto(String title, String author, int pages, BookStatus bookStatus, Long id) {
+
+    }
 }
