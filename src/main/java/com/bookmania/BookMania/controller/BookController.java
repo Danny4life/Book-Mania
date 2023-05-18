@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/book")
 @RequiredArgsConstructor
 public class BookController {
 
@@ -31,13 +31,6 @@ public class BookController {
         bookDto = bookService.getBookById(id);
 
         return ResponseEntity.ok(bookDto);
-
-    }
-
-    @GetMapping("/get-all-books/{id}")
-
-    public List<Book> getAllBooks(@PathVariable Long id){
-        return bookService.getAllBooks(id);
 
     }
 }
