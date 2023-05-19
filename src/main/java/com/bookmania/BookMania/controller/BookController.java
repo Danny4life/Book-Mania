@@ -1,6 +1,7 @@
 package com.bookmania.BookMania.controller;
 
 import com.bookmania.BookMania.dto.BookDto;
+import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.model.Book;
 import com.bookmania.BookMania.services.BookService;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,14 @@ public class BookController {
 
         return ResponseEntity.ok(bookDto);
 
+    }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookDto>> getAllBooksByUserId(@PathVariable Long userId){
+
+        List<BookDto> books = bookService.getAllBooksByUserId(userId);
+
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 }

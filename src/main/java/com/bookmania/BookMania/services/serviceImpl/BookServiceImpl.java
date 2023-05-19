@@ -12,7 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -50,4 +52,28 @@ public class BookServiceImpl implements BookService {
 
         return bookDto;
     }
+
+    @Override
+    public List<BookDto> getAllBooksByUserId(Long userId) {
+        List<Book> books = bookRepository.findAllByUserId(userId);
+        return convertToDoList(books);
+    }
+
+    private List<BookDto> convertToDoList(List<Book> books) {
+        List<BookDto> dtoList = new ArrayList<>();
+
+        for(Book book : books){
+            BookDto dto = new BookDto();
+
+            dto.setTitle(book.getTitle());
+            dto.setAuthor(book.getAuthor());
+            dto.setPages(book.getPages());
+            dto.setBookStatus(book.getBookStatus());
+
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+
 }
