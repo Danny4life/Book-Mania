@@ -59,6 +59,20 @@ public class BookServiceImpl implements BookService {
         return convertToDoList(books);
     }
 
+    @Override
+    public BookDto updateBook(Long id, BookDto bookDto) {
+        Book book = bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book Not Found"));
+
+        book.setTitle(bookDto.getTitle());
+        book.setAuthor(bookDto.getAuthor());
+        book.setPages(bookDto.getPages());
+        book.setBookStatus(bookDto.getBookStatus());
+
+        bookRepository.save(book);
+
+        return bookDto;
+    }
+
     private List<BookDto> convertToDoList(List<Book> books) {
         List<BookDto> dtoList = new ArrayList<>();
 
