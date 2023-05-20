@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/book")
@@ -49,6 +51,18 @@ public class BookController {
         bookDto = bookService.updateBook(id, bookDto);
 
         return ResponseEntity.ok(bookDto);
+
+    }
+
+    @DeleteMapping("/delete-book/{id}")
+    public ResponseEntity<Map<String, Boolean>> deleteBook(@PathVariable Long id){
+
+        boolean deleted = false;
+        deleted = bookService.deleteBook(id);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("Delete", deleted);
+
+        return ResponseEntity.ok(response);
 
     }
 }
