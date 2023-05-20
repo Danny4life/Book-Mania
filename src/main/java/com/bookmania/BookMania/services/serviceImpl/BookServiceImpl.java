@@ -73,6 +73,15 @@ public class BookServiceImpl implements BookService {
         return bookDto;
     }
 
+    @Override
+    public boolean deleteBook(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book Not Found"));
+
+        bookRepository.delete(book);
+
+        return true;
+    }
+
     private List<BookDto> convertToDoList(List<Book> books) {
         List<BookDto> dtoList = new ArrayList<>();
 
