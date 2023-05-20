@@ -46,6 +46,14 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<BookDto>> searchBookByTitle(@RequestParam String title){
+        List<BookDto> bookDto = bookService.searchBooksByTitle(title);
+
+        return ResponseEntity.ok(bookDto);
+
+    }
+
     @PutMapping("update-book/{id}")
     public ResponseEntity<BookDto> updateBook(@PathVariable Long id, @RequestBody BookDto bookDto){
         bookDto = bookService.updateBook(id, bookDto);
