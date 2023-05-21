@@ -84,7 +84,7 @@ public class UserController {
 
         String url =
                 applicationUrl
-                        + "/api/v1/user"
+                        //+ "/api/v1/user"
                         + "/verify-registration?token="
                         + verificationToken.getToken();
 
