@@ -59,6 +59,8 @@ public class BookServiceImpl implements BookService {
         return convertToDoList(books);
     }
 
+
+
     @Override
     public BookDto updateBook(Long id, BookDto bookDto) {
         Book book = bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book Not Found"));
@@ -80,6 +82,11 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
 
         return true;
+    }
+
+    @Override
+    public List<Book> getBooksByTitle(String title) {
+        return bookRepository.findByTitleContainingIgnoreCase(title);
     }
 
     private List<BookDto> convertToDoList(List<Book> books) {
