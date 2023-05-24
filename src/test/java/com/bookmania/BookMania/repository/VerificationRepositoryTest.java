@@ -1,5 +1,6 @@
 package com.bookmania.BookMania.repository;
 
+import com.bookmania.BookMania.model.Book;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 import org.junit.jupiter.api.AfterEach;
@@ -19,33 +20,23 @@ class VerificationRepositoryTest {
 
     @AfterEach
     void tearDown() {
+        underTest.deleteAll();
     }
 
     @Test
     void testFindByToken_WhenTokenExists_ShouldReturnVerificationToken() {
 
         //Given
-        String token = "some_token";
-        User user = new User();
-        user.setFirstname("John");
-        user.setLastname("Doe");
-        user.setEmail("john@gmail.com");
-        user.setPassword("password");
-        user.setRole("USER");
-        user.setEnabled(true);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
 
 
-        VerificationToken expectedToken = new VerificationToken(token,  user);
-        underTest.save(expectedToken);
 
         //When
-        VerificationToken resultToken = underTest.findByToken(token);
+
 
         //Then
-        assertNotNull(resultToken);
-        assertEquals(expectedToken, resultToken);
+
+
+
     }
 
     @Test

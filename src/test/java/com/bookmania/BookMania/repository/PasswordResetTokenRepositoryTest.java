@@ -17,6 +17,7 @@ class PasswordResetTokenRepositoryTest {
 
     @AfterEach
     void tearDown() {
+        underTest.deleteAll();
     }
 
     @Test
