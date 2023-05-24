@@ -61,7 +61,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    void testFindOneByEmailAndPassword() {
+    void itShouldFindOneByEmailAndPassword() {
 
         //Given
         User user = new User();
