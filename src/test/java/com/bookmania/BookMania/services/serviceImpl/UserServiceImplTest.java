@@ -129,7 +129,7 @@ class UserServiceImplTest {
         //Act
         VerificationToken result = underTest.generateNewVerificationToken(oldToken);
 
-        //Assert
+        //Then
         assertNotNull(result);
         assertNotEquals(oldToken, result.getToken());
 
