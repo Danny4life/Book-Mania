@@ -2,25 +2,32 @@ package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
+import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
+import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
 import com.bookmania.BookMania.model.User;
+import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Calendar;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -45,6 +52,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
+
     }
 
     @AfterEach
@@ -79,11 +87,53 @@ class UserServiceImplTest {
     }
 
     @Test
-    void validateVerificationToken() {
+    void itShouldValidateAndReturnVerificationToken() {
+        //When
+        String token = "validToken";
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+
+        User user = new User();
+        user.setFirstname("john");
+        user.setLastname("Doe");
+        user.setEmail("john@gmail.com");
+        user.setPassword("password");
+        user.setRole("USER");
+        user.setEnabled(true);
+        verificationToken.setUser(user);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, 1);
+        verificationToken.setExpirationTime(cal.getTime());
+
+        //When
+        when(verificationRepository.findByToken(token)).thenReturn(verificationToken);
+
+        //Act
+        String result = underTest.validateVerificationToken(token);
+
+        //Then
+        verify(userRepository, times(1)).save(user);
+        assertEquals("valid", result);
     }
 
     @Test
-    void generateNewVerificationToken() {
+    void itShouldGenerateNewVerificationToken() {
+        //Given
+        String oldToken = "oldToken";
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(oldToken);
+
+        //When
+        when(verificationRepository.findByToken(oldToken)).thenReturn(verificationToken);
+
+        //Act
+        VerificationToken result = underTest.generateNewVerificationToken(oldToken);
+
+        //Assert
+        assertNotNull(result);
+        assertNotEquals(oldToken, result.getToken());
+
+        verify(verificationRepository, times(1)).save(verificationToken);
     }
 
     @Test
