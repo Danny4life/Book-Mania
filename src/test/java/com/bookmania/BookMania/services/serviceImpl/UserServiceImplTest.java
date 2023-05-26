@@ -3,6 +3,7 @@ package com.bookmania.BookMania.services.serviceImpl;
 import com.bookmania.BookMania.Util.Util;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
+import com.bookmania.BookMania.exceptions.EmailNotFoundException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
@@ -149,7 +150,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findUserByEmail() {
+    void toFindUserByEmail() {
 
         //Given
         String email = "john@gmail.com";
@@ -163,6 +164,20 @@ class UserServiceImplTest {
 
         //Then
         Assertions.assertEquals(user, result);
+    }
+
+    @Test
+    void testFindUserByEmail_WhenEmailNotFound(){
+
+        //Given
+        String email = "john@gmail.com";
+
+        //When
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        //Then
+        Assertions.assertThrows(EmailNotFoundException.class, ()-> underTest.findUserByEmail(email));
+
     }
 
     @Test
