@@ -5,6 +5,7 @@ import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
+import com.bookmania.BookMania.model.PasswordResetToken;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
@@ -181,7 +182,17 @@ class UserServiceImplTest {
     }
 
     @Test
-    void createPasswordResetTokenForUser() {
+    void itShouldCreatePasswordResetTokenForUser() {
+
+        //Given
+        User user = new User();
+        String token = "reset-token";
+
+        //Act
+        underTest.createPasswordResetTokenForUser(user, token);
+
+        //Verify
+        Mockito.verify(passwordResetTokenRepository).save(Mockito.any(PasswordResetToken.class));
     }
 
     @Test
