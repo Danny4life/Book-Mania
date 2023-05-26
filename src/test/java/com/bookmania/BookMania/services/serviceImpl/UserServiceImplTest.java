@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -137,7 +138,17 @@ class UserServiceImplTest {
     }
 
     @Test
-    void saveVerificationTokenForUser() {
+    void itShouldSaveVerificationTokenForUser() {
+
+        //Given
+        String token = "token";
+        User user = new User();
+
+        //When
+        underTest.saveVerificationTokenForUser(token, user);
+
+        //Then
+        Mockito.verify(verificationRepository).save(Mockito.any(VerificationToken.class));
     }
 
     @Test
