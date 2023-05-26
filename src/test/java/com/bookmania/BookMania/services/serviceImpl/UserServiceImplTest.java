@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -196,7 +197,29 @@ class UserServiceImplTest {
     }
 
     @Test
-    void validatePasswordResetToken() {
+    void itShouldValidatePasswordResetTokenWhenTokenIsValid() {
+
+        //Given
+        String token = "valid-token";
+        User user = new User();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Date().getTime());
+        calendar.add(Calendar.MINUTE, 10);
+        Date expirationTime = calendar.getTime();
+
+
+        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
+        passwordResetToken.setExpirationTime(expirationTime);
+
+        //When
+        Mockito.when(passwordResetTokenRepository.findByToken(token)).thenReturn(passwordResetToken);
+
+        //Act
+        String result = underTest.validatePasswordResetToken(token);
+
+        //Then
+        Assertions.assertEquals("valid", result);
     }
 
     @Test
