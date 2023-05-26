@@ -274,6 +274,21 @@ class UserServiceImplTest {
         Assertions.assertEquals(Optional.of(user), result);
     }
 
+//    @Test
+//    void testGetUserByPasswordResetToken_WhenTokenNotFound(){
+//        //Given
+//        String token = "reset-token";
+//
+//        //When
+//        Mockito.when(passwordResetTokenRepository.findByToken(token)).thenReturn(null);
+//
+//        //Act
+//        Optional<User> result = underTest.getUserByPasswordResetToken(token);
+//
+//        //Then
+//        Assertions.assertEquals(Optional.empty(), result);
+//    }
+
     @Test
     void changePassword() {
     }
