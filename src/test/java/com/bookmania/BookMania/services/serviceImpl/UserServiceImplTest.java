@@ -223,6 +223,23 @@ class UserServiceImplTest {
     }
 
     @Test
+    void testValidatePasswordResetTokenWhenTokenIsInvalid(){
+        //Given
+        String token = "invalid-token";
+
+        //When
+        Mockito.when(passwordResetTokenRepository.findByToken(token)).thenReturn(null);
+
+        //Act
+        String result = underTest.validatePasswordResetToken(token);
+
+        //Verify
+        Assertions.assertEquals("Invalid", result);
+
+
+    }
+
+    @Test
     void getUserByPasswordResetToken() {
     }
 
