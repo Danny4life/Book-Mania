@@ -235,8 +235,26 @@ class UserServiceImplTest {
 
         //Verify
         Assertions.assertEquals("Invalid", result);
+    }
 
+    @Test
+    void testValidatePasswordResetToken_WhenTokenIsExpired(){
+        //Given
+        String token = "expired-token";
+        User user = new User();
+        Date expirationTime = new Date();
 
+        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
+        passwordResetToken.setExpirationTime(expirationTime);
+
+        //When
+        Mockito.when(passwordResetTokenRepository.findByToken(token)).thenReturn(passwordResetToken);
+
+        //Act
+        String result = underTest.validatePasswordResetToken(token);
+
+        //Then
+        Assertions.assertEquals("Expired", result);
     }
 
     @Test
