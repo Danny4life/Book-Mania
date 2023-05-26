@@ -9,10 +9,7 @@ import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -153,6 +150,19 @@ class UserServiceImplTest {
 
     @Test
     void findUserByEmail() {
+
+        //Given
+        String email = "john@gmail.com";
+        User user = new User();
+
+        //When
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        //Act
+        User result = underTest.findUserByEmail(email);
+
+        //Then
+        Assertions.assertEquals(user, result);
     }
 
     @Test
