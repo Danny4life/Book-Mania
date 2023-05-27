@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Calendar;
@@ -290,7 +291,21 @@ class UserServiceImplTest {
 //    }
 
     @Test
-    void changePassword() {
+    void itShouldChangePassword() {
+        //Given
+        User user = Mockito.mock(User.class);
+        String newPassword = "new-password";
+        String encodedPassword = "encoded-password";
+
+        //When
+        Mockito.when(passwordEncoder.encode(newPassword)).thenReturn(encodedPassword);
+
+        //Act
+        underTest.changePassword(user, newPassword);
+
+        //Verify
+        Mockito.verify(user).setPassword(encodedPassword);
+        Mockito.verify(userRepository).save(user);
     }
 
     @Test
