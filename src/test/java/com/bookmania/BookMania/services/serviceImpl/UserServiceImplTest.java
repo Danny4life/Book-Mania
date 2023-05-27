@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -309,7 +310,18 @@ class UserServiceImplTest {
     }
 
     @Test
-    void checkIfValidOldPassword() {
+    void itShouldCheckIfValidOldPassword() {
+        //Given
+        User user = new User();
+        String oldPassword = "old-password";
+        String encodedPassword = "encoded-password";
+
+        //When
+        Mockito.when(passwordEncoder.matches(oldPassword, encodedPassword)).thenReturn(true);
+        user.setPassword(encodedPassword);
+
+        //Then
+        assertTrue(underTest.checkIfValidOldPassword(user, oldPassword));
     }
 
     @Test
