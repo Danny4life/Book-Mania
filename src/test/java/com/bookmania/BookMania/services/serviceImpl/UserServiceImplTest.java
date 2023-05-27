@@ -1,6 +1,7 @@
 package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.Util.Util;
+import com.bookmania.BookMania.dto.LoginDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
@@ -11,6 +12,7 @@ import com.bookmania.BookMania.model.VerificationToken;
 import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
+import com.bookmania.BookMania.response.LoginResponse;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -339,7 +341,61 @@ class UserServiceImplTest {
         assertFalse(underTest.checkIfValidOldPassword(user, oldPassword));
     }
 
+//    @Test
+//    void loginUser() {
+//        //Given
+//        LoginDto loginDto = new LoginDto("john@gmail.com", "password");
+//        User user = new User();
+//        user.setEmail("john@gmail.com");
+//        String encodedPassword = "encoded-password";
+//
+//        //When
+//        Mockito.when(userRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.of(user));
+//        Mockito.when(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
+//        Mockito.when(userRepository.findOneByEmailAndPassword(loginDto.getEmail(), encodedPassword)).thenReturn(Optional.of(user));
+//
+//        //Act
+//        LoginResponse response = underTest.loginUser(loginDto);
+//
+//        //Then
+//        assertTrue(response.getStatus());
+//        assertEquals("Login Successful", response.getMessage());
+//    }
+
+
+//    @Test
+//    void testLoginUser_Failed(){
+//        //Given
+//        LoginDto loginDto = new LoginDto("john@gmail.com", "password");
+//        User user = new User();
+//        user.setEmail("john@gmail.com");
+//        String encodedPassword = "encoded-password";
+//
+//        //When
+//        Mockito.when(userRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.of(user));
+//        Mockito.when(passwordEncoder.matches(loginDto.getPassword(), encodedPassword)).thenReturn(false);
+//
+//        //Act
+//        LoginResponse response = underTest.loginUser(loginDto);
+//
+//        //Then
+//        assertFalse(response.getStatus());
+//        assertEquals("Email or Password does not match", response.getMessage());
+//    }
+
     @Test
-    void loginUser() {
+    void testLoginUser_EmailNotFound(){
+        //Given
+        LoginDto loginDto = new LoginDto("john@gmail.com", "password");
+
+        //When
+        Mockito.when(userRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.empty());
+
+        //Act
+        LoginResponse response = underTest.loginUser(loginDto);
+
+        //Then
+        assertFalse(response.getStatus());
+        assertEquals(response.getMessage(), "Email does not exists");
     }
 }
