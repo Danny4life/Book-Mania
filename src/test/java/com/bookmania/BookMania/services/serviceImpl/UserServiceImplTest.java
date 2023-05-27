@@ -325,6 +325,21 @@ class UserServiceImplTest {
     }
 
     @Test
+    void testCheckIfInvalidOldPassword(){
+        //Given
+        User user = new User();
+        String oldPassword = "old-password";
+        String encodedPassword = "encoded-password";
+
+        //When
+        Mockito.when(passwordEncoder.matches(oldPassword, encodedPassword)).thenReturn(false);
+        user.setPassword(encodedPassword);
+
+        //Then
+        assertFalse(underTest.checkIfValidOldPassword(user, oldPassword));
+    }
+
+    @Test
     void loginUser() {
     }
 }
