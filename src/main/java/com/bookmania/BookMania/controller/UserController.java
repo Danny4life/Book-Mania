@@ -56,6 +56,16 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
+    @GetMapping("/register/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
+        UserDto userDto = null;
+        userDto = userService.getUserById(id);
+
+        return ResponseEntity.ok(userDto);
+
+
+    }
+
 
     @GetMapping("/verify-registration")
     public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token){

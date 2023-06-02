@@ -30,4 +30,6 @@ public interface UserService {
     boolean checkIfValidOldPassword(User user, String oldPassword);
 
     LoginResponse loginUser(LoginDto loginDto);
+
+    UserDto getUserById(Long id);
 }
