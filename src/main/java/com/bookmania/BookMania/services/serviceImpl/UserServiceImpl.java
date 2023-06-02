@@ -6,6 +6,7 @@ import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
 import com.bookmania.BookMania.exceptions.EmailNotFoundException;
 import com.bookmania.BookMania.exceptions.PasswordNotMatchException;
+import com.bookmania.BookMania.exceptions.UserNotFoundException;
 import com.bookmania.BookMania.model.PasswordResetToken;
 import com.bookmania.BookMania.model.User;
 import com.bookmania.BookMania.model.VerificationToken;
@@ -15,6 +16,7 @@ import com.bookmania.BookMania.repository.VerificationRepository;
 import com.bookmania.BookMania.response.LoginResponse;
 import com.bookmania.BookMania.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -181,5 +183,15 @@ public class UserServiceImpl implements UserService {
             return new LoginResponse("Email does not exists", false);
         }
 
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(user, userDto);
+
+        return userDto;
     }
 }
