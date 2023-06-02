@@ -17,7 +17,16 @@ public class WebSecurityConfig {
             "/register",
             "/login",
             "/verify-registration*",
-            "/resend-verification-link*"
+            "/resend-verification-link*",
+            "/reset-password",
+            "/save-password",
+            "/change-password",
+            "/create-book/{id}",
+            "/get-book/{id}",
+            "/user/{userId}",
+            "/search",
+            "update-book/{id}",
+            "/delete-book/{id}"
     };
 
     @Bean
