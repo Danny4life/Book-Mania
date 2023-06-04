@@ -80,6 +80,7 @@ class UserServiceImplTest {
         when(passwordEncoder.encode(userDto.getPassword())).thenReturn("encodedPassword");
 
         //Act
+
         User result = underTest.registerUser(userDto);
 
         //Then

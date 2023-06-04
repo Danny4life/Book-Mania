@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @CrossOrigin(origins = "http://127.0.0.1:5173")
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/user/")
 @RequiredArgsConstructor
 @Slf4j
 @Validated
