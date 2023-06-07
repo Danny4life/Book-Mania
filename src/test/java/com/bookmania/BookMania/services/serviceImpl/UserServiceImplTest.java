@@ -342,47 +342,34 @@ class UserServiceImplTest {
         assertFalse(underTest.checkIfValidOldPassword(user, oldPassword));
     }
 
-//    @Test
-//    void loginUser() {
-//        //Given
-//        LoginDto loginDto = new LoginDto("john@gmail.com", "password");
-//        User user = new User();
-//        user.setEmail("john@gmail.com");
-//        String encodedPassword = "encoded-password";
-//
-//        //When
-//        Mockito.when(userRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.of(user));
-//        Mockito.when(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
-//        Mockito.when(userRepository.findOneByEmailAndPassword(loginDto.getEmail(), encodedPassword)).thenReturn(Optional.of(user));
-//
-//        //Act
-//        LoginResponse response = underTest.loginUser(loginDto);
-//
-//        //Then
-//        assertTrue(response.getStatus());
-//        assertEquals("Login Successful", response.getMessage());
-//    }
+    @Test
+    void itShouldTestLoginUser_Successful() {
+        //Given
+       String email = "john@gmail.com";
+       String password = "password";
+       String encodedPassword = "encodedPassword";
 
+       LoginDto loginDto = new LoginDto(email, password);
+        //When
+       User user = new User();
+       user.setPassword(encodedPassword);
+       when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+       when(userRepository.findOneByEmailAndPassword(email, encodedPassword)).thenReturn(Optional.of(user));
+       when(passwordEncoder.matches(password, encodedPassword)).thenReturn(true);
+        //Act
+        LoginResponse response = underTest.loginUser(loginDto);
 
-//    @Test
-//    void testLoginUser_Failed(){
-//        //Given
-//        LoginDto loginDto = new LoginDto("john@gmail.com", "password");
-//        User user = new User();
-//        user.setEmail("john@gmail.com");
-//        String encodedPassword = "encoded-password";
-//
-//        //When
-//        Mockito.when(userRepository.findByEmail(loginDto.getEmail())).thenReturn(Optional.of(user));
-//        Mockito.when(passwordEncoder.matches(loginDto.getPassword(), encodedPassword)).thenReturn(false);
-//
-//        //Act
-//        LoginResponse response = underTest.loginUser(loginDto);
-//
-//        //Then
-//        assertFalse(response.getStatus());
-//        assertEquals("Email or Password does not match", response.getMessage());
-//    }
+        LoginResponse expectedResponse = new LoginResponse("Login Successful", true);
+
+        //Then
+        assertEquals(expectedResponse, response);
+
+    }
+
+    @Test
+    void test_Login_user_IncorrectPassword(){
+
+    }
 
     @Test
     void testLoginUser_EmailNotFound(){
