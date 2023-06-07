@@ -348,8 +348,8 @@ class UserServiceImplTest {
        String email = "john@gmail.com";
        String password = "password";
        String encodedPassword = "encodedPassword";
-
        LoginDto loginDto = new LoginDto(email, password);
+
         //When
        User user = new User();
        user.setPassword(encodedPassword);
@@ -368,7 +368,26 @@ class UserServiceImplTest {
 
     @Test
     void test_Login_user_IncorrectPassword(){
+        //Given
+        String email = "john@gmail.com";
+        String password = "password";
+        String encodedPassword = "encodedPassword";
+        LoginDto loginDto = new LoginDto(email, password);
 
+
+        //When
+        User user = new User();
+        user.setPassword(encodedPassword);
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(password, encodedPassword)).thenReturn(false);
+
+        //Act
+        LoginResponse response = underTest.loginUser(loginDto);
+
+        LoginResponse expectedResponse = new LoginResponse("Email or Password does not match", false);
+
+        //Then
+        assertEquals(expectedResponse, response);
     }
 
     @Test
