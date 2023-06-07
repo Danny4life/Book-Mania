@@ -13,6 +13,7 @@ import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
 import com.bookmania.BookMania.response.LoginResponse;
+import com.bookmania.BookMania.services.UserService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -22,6 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -278,22 +280,6 @@ class UserServiceImplTest {
         //Then
         Assertions.assertEquals(Optional.of(user), result);
     }
-
-//    @Test
-//    void testGetUserByPasswordResetToken_WhenTokenNotFound(){
-//        //Given
-//        String token = "reset-token";
-//
-//        //When
-//        Mockito.when(passwordResetTokenRepository.findByToken(token)).thenReturn(null);
-//
-//        //Act
-//        Optional<User> result = underTest.getUserByPasswordResetToken(token);
-//
-//        //Then
-//        Assertions.assertEquals(Optional.empty(), result);
-//    }
-
     @Test
     void itShouldChangePassword() {
         //Given
@@ -404,5 +390,30 @@ class UserServiceImplTest {
         //Then
         assertFalse(response.getStatus());
         assertEquals(response.getMessage(), "Email does not exists");
+    }
+
+    @Test
+    void toTestGetUserById() {
+        //Given
+        Long userId = 1L;
+        User user = new User();
+        user.setId(userId);
+        user.setFirstname("John");
+        user.setLastname("Doe");
+        user.setEmail("john@gmail.com");
+        user.setPassword("password");
+        user.setRole("USER");
+        user.setEnabled(true);
+
+        //When
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+        UserDto result = underTest.getUserById(userId);
+
+        //Verify
+        verify(userRepository).findById(userId);
+        assertNotNull(result);
+        assertEquals("John Doe", result.getFirstname() + " " + result.getLastname());
+
     }
 }

@@ -1,7 +1,6 @@
 package com.bookmania.BookMania.services.serviceImpl;
 
 import com.bookmania.BookMania.Util.Util;
-//import com.bookmania.BookMania.dto.EmailDetails;
 import com.bookmania.BookMania.dto.LoginDto;
 import com.bookmania.BookMania.dto.UserDto;
 import com.bookmania.BookMania.exceptions.EmailAlreadyExistException;
@@ -15,7 +14,6 @@ import com.bookmania.BookMania.repository.PasswordResetTokenRepository;
 import com.bookmania.BookMania.repository.UserRepository;
 import com.bookmania.BookMania.repository.VerificationRepository;
 import com.bookmania.BookMania.response.LoginResponse;
-//import com.bookmania.BookMania.services.EmailService;
 import com.bookmania.BookMania.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -45,8 +43,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private Util util;
 
-//    @Autowired
-//    private EmailService emailService;
 
 
 
@@ -73,18 +69,9 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
 
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
-        // send email alert
-//        EmailDetails emailDetails = EmailDetails.builder()
-//                .recipient(savedUser.getEmail())
-//                .subject("Account Creation")
-//                .messageBody("click the link to verify your account")
-//                .build();
-//
-//        emailService.sendEmailAlert(emailDetails);
-
-        return savedUser;
+        return user;
     }
 
     @Override
