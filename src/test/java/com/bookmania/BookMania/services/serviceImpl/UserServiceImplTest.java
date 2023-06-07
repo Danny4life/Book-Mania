@@ -416,4 +416,5 @@ class UserServiceImplTest {
         assertEquals("John Doe", result.getFirstname() + " " + result.getLastname());
 
     }
+
 }
